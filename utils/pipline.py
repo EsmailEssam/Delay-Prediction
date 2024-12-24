@@ -64,7 +64,7 @@ def prediction(sample_data: pd.DataFrame) -> pd.DataFrame:
             label_encoders[col] = le
     
     columns_to_drop = [
-    "Activity Name", "task_name", "pred_details", "succ_details",
+    "task_name", "pred_details", "succ_details",
     "predtask__projwbs__wbs_full_name", "task__projwbs__wbs_full_name",
     "predtask__task_name", "task__task_name", "task_code", "task_id","wbs_id",'lag_hr_cnt'
     ]
@@ -88,10 +88,10 @@ def prediction(sample_data: pd.DataFrame) -> pd.DataFrame:
     prediction = model.predict(input_data)
     
     merged_df['Predicted_Delay_Status'] = ["Delayed" if x > 0.50 else "On Time" for x in prediction]
-  
-    return merged_df[['Activity ID', 'Predicted_Delay_Status']]
+    
+    return merged_df[['Activity ID', "Activity Name",'Predicted_Delay_Status']].drop_duplicates().reset_index(drop=True)
 
 
 if __name__ == "__main__":
-  # print(os.path.join(os.getcwd(), 'data', 'sample_data.csv'))
-  print(data_preprocessing(pd.read_csv(os.path.join(os.getcwd(), 'data', 'sample.csv'))))
+    # print(os.path.join(os.getcwd(), 'data', 'sample_data.csv'))
+    print(prediction(pd.read_csv(os.path.join(os.getcwd(), 'data', 'sample.csv'))))
