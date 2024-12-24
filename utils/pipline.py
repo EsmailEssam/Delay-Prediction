@@ -7,7 +7,11 @@ import os
 # Load the pre-trained model and scaler
 @st.cache_resource
 def load_resources():
-    with open("Models\Delay_Status_model.pkl", "rb") as model_file, open("Models\scaler.pkl", "rb") as scaler_file:
+    with open(
+        os.path.join(os.getcwd(), "Models", "Delay_Status_model.pkl"), "rb"
+    ) as model_file, open(
+        os.path.join(os.getcwd(), "Models", "scaler.pkl"), "rb"
+    ) as scaler_file:
         model = pickle.load(model_file)
         scaler = pickle.load(scaler_file)
     return model, scaler
